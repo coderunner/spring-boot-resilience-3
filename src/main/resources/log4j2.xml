@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="10">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{1.} - %X{x-correlation-id} - %msg%n"/>
+        </Console>
+        <File name="File" fileName="output.log" bufferedIO="false">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{1.} - %X{x-correlation-id} - %msg%n"/>
+        </File>
+        <RollingFile name="Access" fileName="access.log" filePattern="access-%i.log" ignoreExceptions="false" max="4">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{1.} - %X{x-correlation-id} - %msg%n"/>
+            <SizeBasedTriggeringPolicy size="1KB" />
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Root>
+        <Logger name="com.inf5190.resilience.HttpFilter" level="INFO" additivity="false">
+            <AppenderRef ref="Access"/>
+        </Logger>
+    </Loggers>
+</Configuration>
